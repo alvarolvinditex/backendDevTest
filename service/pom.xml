@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.5.6</version>
+    <relativePath />
+  </parent>
+
+  <groupId>com.example.products</groupId>
+  <artifactId>productservice</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <name>Products</name>
+  <description>Backend Test</description>
+  <packaging>pom</packaging>
+
+  <properties>
+    <junit.version>4.13.2</junit.version>
+    <jackson.version>2.13.2</jackson.version>
+    <swagger-codegen.version>1.0.8</swagger-codegen.version>
+    <swagger-codegen-maven-plugin.version>3.0.32</swagger-codegen-maven-plugin.version>
+    <swagger-annotations.version>1.6.3</swagger-annotations.version>
+    <jackson-databind.version>0.2.1</jackson-databind.version>
+    <validation.version>2.0.1.Final</validation.version>
+    <springfox.version>2.6.0</springfox.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.example.products</groupId>
+        <artifactId>productservice-domain</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.example.products</groupId>
+        <artifactId>productservice-restclient</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.example.products</groupId>
+        <artifactId>productservice-infrastructure</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.example.products</groupId>
+        <artifactId>productservice-application</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.example.products</groupId>
+        <artifactId>productservice-api-rest</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>${jackson.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+        <artifactId>jackson-datatype-jsr310</artifactId>
+        <version>${jackson.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>io.swagger.codegen.v3</groupId>
+        <artifactId>swagger-codegen-generators</artifactId>
+        <version>${swagger-codegen.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>io.swagger</groupId>
+        <artifactId>swagger-annotations</artifactId>
+        <version>${swagger-annotations.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.openapitools</groupId>
+        <artifactId>jackson-databind-nullable</artifactId>
+        <version>${jackson-databind.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.validation</groupId>
+        <artifactId>validation-api</artifactId>
+        <version>${validation.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-swagger-ui</artifactId>
+        <version>${springfox.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-swagger2</artifactId>
+        <version>${springfox.version}</version>
+      </dependency>
+
+    </dependencies>
+
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>io.swagger.codegen.v3</groupId>
+          <artifactId>swagger-codegen-maven-plugin</artifactId>
+          <version>${swagger-codegen-maven-plugin.version}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>generate</goal>
+              </goals>
+              <configuration>
+                <inputSpec>${project.basedir}/src/main/resources/existingApis.yaml</inputSpec>
+                <language>java</language>
+                <library>resttemplate</library>
+                <apiPackage>com.example.products.api.codegen</apiPackage>
+                <modelPackage>com.example.products.api.codegen.model</modelPackage>
+                <configOptions>
+                  <dateLibrary>java8-localdatetime</dateLibrary>
+                </configOptions>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.openapitools</groupId>
+          <artifactId>openapi-generator-maven-plugin</artifactId>
+          <version>5.3.0</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>generate</goal>
+              </goals>
+              <configuration>
+                <inputSpec>${project.basedir}/src/main/resources/similarProducts.yaml</inputSpec>
+                <generatorName>spring</generatorName>
+                <apiPackage>com.example.products.controller.codegen</apiPackage>
+                <modelPackage>com.example.products.controller.codegen.model</modelPackage>
+                <configOptions>
+                  <interfaceOnly>true</interfaceOnly>
+                </configOptions>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+
+    </pluginManagement>
+
+  </build>
+
+  <modules>
+    <module>productservice-boot</module>
+    <module>productservice-api-rest</module>
+    <module>productservice-domain</module>
+    <module>productservice-restclient</module>
+    <module>productservice-infrastructure</module>
+    <module>productservice-application</module>
+  </modules>
+
+</project>
